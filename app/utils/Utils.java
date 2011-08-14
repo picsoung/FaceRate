@@ -17,7 +17,7 @@ import s3client.Client;
 
 public class Utils {
 
-	public static void uploadImage(String name, byte[] imageBytes) {
+	public static String uploadImage(String name, byte[] imageBytes) {
 		String s3AccessKey = Play.configuration.getProperty("s3AccesKey");
 		String s3PrivateKey = Play.configuration.getProperty("privateKey");
 		String s3Bucket = Play.configuration.getProperty("bucket");
@@ -31,9 +31,11 @@ public class Utils {
 			headers.put("Expires", Arrays.asList("never"));
 			Logger.info("Uploading s3 content "+s3Bucket+" · "+name);
 			client.putObject(s3Bucket , name, imageBytes, type, true, headers);
+			return "https://s3.amazonaws.com/"+s3Bucket+"/"+name;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 //		Socket s = null;
 //		DataOutputStream out = null;
 //		DataInputStream in = null;
