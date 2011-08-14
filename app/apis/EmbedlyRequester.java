@@ -21,7 +21,7 @@ public class EmbedlyRequester {
 	
 			Logger.info("Response " + stringResponse);
 			Json json =  Json.loads(stringResponse);
-			return json.get("html").toString();
+			return json.get("html").str();
 		
 		} catch (IOException e) {
 			e.printStackTrace();

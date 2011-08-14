@@ -22,13 +22,16 @@ import utils.Utils;
 public class Application extends Controller {
 
     public static void index() {
+    	String getUrl = params.get("url");
+    	renderArgs.put("getUrl_html",EmbedlyRequester.getLinkHtml(getUrl));
+		
         render();
     }
     
     public static void getLinkHTML(String url) throws IOException {
     	Logger.info("Trying to get the content for " + url);
 
-		renderJSON(EmbedlyRequester.getLinkHtml(url));
+		renderText(EmbedlyRequester.getLinkHtml(url));
     }
     
     public static void uploadRating(String img) throws IOException {
