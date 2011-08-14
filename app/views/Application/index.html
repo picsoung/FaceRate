@@ -12,14 +12,50 @@
 		<div id="publisher"></div>				
 	</div>
 	<div class="button-container">
-		<button id="identifyButton" style="display: none">Identify Person</button>
+		<button id="ratingButton" style="display: none">Rate video</button>
 	</div>
+	<form id="send-image" mthod="POST">
+		<input type="hidden" name="img" id="img-data"/>
+	</form>
+</div>
+<div id="rate-container">
+	<h3>Container</h3>
 </div>
 
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
-<script src="@{'/public/javascripts/face-rating.js'}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	var apiKey = '3106852';
+	var sessionId = '2d0800d33d4d1f7cd70c71dacdb828bef5c8ee4a';
+	var token = 'devtoken';	
+	var publisher;
+	var session = TB.initSession(sessionId);
+	
+	// Set up event listeners
+	session.addEventListener('sessionConnected', sessionConnectedHandler);
+	session.addEventListener('streamCreated', streamCreatedHandler);
+	session.connect(apiKey, token);
+	
+	// On session connect handler
+	function sessionConnectedHandler(event) {
+		var div = document.createElement('div');
+		div.setAttribute('id', 'publisher');
+		
+		document.getElementById('publisher').appendChild(div);
+		
+		publisher = session.publish(div.id);
+	}
+	
+	// On stream created handler
+	function streamCreatedHandler(event) {
+		for (var i = 0; i < event.streams.length; i++) {
+			// Enable the identify button as soon as the publisher hits 'Allow'
+			if (event.streams[i].connection.connectionId == session.connection.connectionId) {
+				$("#ratingButton").css("display", "block");
+			}
+		}
+	}
+	
 	function getUrlContent(url) {
 		var data = "url="+url;
 		console.log(data);
@@ -33,6 +69,21 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	function sendRateToServer(imgData) {
+		var data = $('#send-image').serialize();
+		console.log('Sending to the server ' + data);
+		console.log(data);
+		$.ajax({
+			url: '@@{Application.uploadRating}',
+			data: data,
+			type: "POST",
+			crossDomain: true,
+			success: function(response) {
+				//do something
+			}
+		});
+	}
 
 	function drawUrlContent(content) {
 		$('#url-content').html(content);
@@ -42,6 +93,17 @@ $(document).ready(function() {
 		e.preventDefault();
 		getUrlContent($('#url-to-view').attr('value'));
 	});
+	
+		$("#ratingButton").click(function(e) {
+		e.preventDefault();
+		var imgData = publisher.getImgData();
+		var img = $('<img>');
+		img.attr('src', "data:image/gif;base64," + imgData);
+		$("#rate-container").append($('<div>').append(img));
+		$('#img-data').attr('value', imgData);
+		sendRateToServer();
+	});
 	console.log('Finished');
 });
 </script>
+<script src="@{'/public/javascripts/face-rating.js'}" type="text/javascript" charset="utf-8"></script>

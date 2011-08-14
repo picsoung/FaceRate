@@ -6,11 +6,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
 import play.Logger;
 import play.mvc.Controller;
 import siena.Json;
+import utils.Utils;
 
 public class Application extends Controller {
 
@@ -25,13 +27,21 @@ public class Application extends Controller {
     	Logger.info("Requesting for " + baseUrl);
     	URL u = new URL(baseUrl);
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-    	//HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
     	InputStream in = conn.getInputStream();
 		byte[] bytes = IOUtils.toByteArray(in);
 		String stringResponse = new String(bytes);
 		Logger.info("Response " + stringResponse);
 		Json json =  Json.loads(stringResponse);
 		renderJSON(json.get("html").toString());
+    }
+    
+    public static void uploadRating(String img) {
+    	Logger.info("Receiving data " + img);
+    	byte[] imageBytes = Base64.decodeBase64(img);
+    	String imageName = ""+ System.currentTimeMillis();
+		Utils.uploadImage(imageName, imageBytes);
+		//Route to the image
+		//https://s3.amazonaws.com/face-rate/testing.img
     }
 
 }
