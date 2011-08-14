@@ -21,11 +21,14 @@ public class Image extends Model {
 	@Column("wearing_glasses")
 	public boolean wearingGlasses;
 	
+	@Column("is_smiling")
+	public boolean isSmiling;
+	
 	@Max(50)
 	public String mood;
 	
-	@Max(50)
-	public String gender;
+	@Column("mood_confidence")
+	public int moodConfidence;
 	
 	@DateTime
 	public Date creationDate;
