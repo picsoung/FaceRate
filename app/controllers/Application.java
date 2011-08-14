@@ -6,11 +6,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import models.Image;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
 import apis.EmbedlyRequester;
-import apis.FaceComRequester;
+import apis.FaceComUtils;
 
 import play.Logger;
 import play.Play;
@@ -42,15 +44,28 @@ public class Application extends Controller {
 			//TODO return error
 		}
 		
-		Json faceInformation = FaceComRequester.getFaceInfromation(imagePath);
-		if (!faceInformation.get("face").asBoolean()) {
+		Json faceInformation = FaceComUtils.getFaceInfromation(imagePath);
+		if (!FaceComUtils.isFace(faceInformation)) {
 			//TODO return error, is not a face
 		}
 		
+		Logger.info("Is a face");
+		
+		Image image = new Image();
+		
+		image.isSmiling = FaceComUtils.isSmiling(faceInformation);
+		image.wearingGlasses = FaceComUtils.isWeringGlasses(faceInformation);
+		image.mood = FaceComUtils.getStringAttributeValue(faceInformation, "mood");
+		image.moodConfidence = FaceComUtils.getAttributeConfidence(faceInformation, "mood");
+		
+		Logger.info(""+image.isSmiling);
+		Logger.info(""+image.wearingGlasses);
+		Logger.info(""+image.mood);
+		Logger.info(""+image.moodConfidence);
+		
+		//image.insert();
 		
 		
-		//Route to the image
-		//https://s3.amazonaws.com/face-rate/imageName
     }
 
 }

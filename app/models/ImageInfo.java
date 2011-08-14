@@ -18,7 +18,7 @@ public class ImageInfo {
 	
 	public String mood;
 	
-	public String gender;
+	public int moodConfidence;
 	
 	public long creationDate;
 	
@@ -27,7 +27,6 @@ public class ImageInfo {
 		isAFace = image.isAFace;
 		wearingGlasses = image.wearingGlasses;
 		mood = image.mood;
-		gender = image.gender;
 		creationDate = image.creationDate.getTime();
 	}
 }
