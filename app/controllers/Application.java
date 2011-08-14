@@ -23,7 +23,7 @@ public class Application extends Controller {
     
     public static void getLinkHTML(String url) throws MalformedURLException, IOException {
     	Logger.info("Trying to get the content for " + url);
-    	String apiKey = (String) Play.configuration.get("embedly.apikey");
+    	String apiKey = Play.configuration.getProperty("embedly.apikey");
     	String baseUrl = "http://api.embed.ly/1/oembed?key="+apiKey +"&url="+url;//api.embed.ly/1/oembed?key=:key&url=:url&maxwidth=:maxwidth&maxheight=:maxheight&format=:format&callback=:callback
     	Logger.info("Requesting for " + baseUrl);
     	URL u = new URL(baseUrl);
