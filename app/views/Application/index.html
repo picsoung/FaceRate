@@ -30,10 +30,16 @@
 				<button id="ratingButton" style="display: none">FaceRate it</button>
 			</div>
 		</div>
+		<img src="./public/images/share_btn.jpg" id="share-via-facebook" width="100px"/>
+		<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+		<div>
+		  <a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
+		</div>
 	</div>
 	<form id="send-image" mthod="POST">
 		<input type="hidden" name="img" id="img-data"/>
 	</form>
+	
 	
 </div>
 <div class="row" id="rate-container">
@@ -43,11 +49,10 @@
 <div class="row">
 	<div class="col col_16" id="footer">
 		<h3>Powered by</h3>
-		<img src="http://developers.face.com/wordpress/wp-content/uploads/2010/04/logo_500_138-300x82.png" class="logo"/>&nbsp;
-		<img src="http://embed.ly/static/images/logos/embedly-powered-large-light.png" class="logo"/>&nbsp;
-		<img src="http://static.opentok.com/opentok/assets/img/shared/logos/opentok-logo.png" class="logo"/>
+		<img src="./public/images/logo_facedotcom.png" class="logo"/>&nbsp;
+		<img src="./public/images/logo_embedly.png" class="logo"/>&nbsp;
+		<img src="./public/images/opentok-logo.png" class="logo"/>
 	</div>
-	<a id="share-via-facebook">Texte1</a>
 </div>
 
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
@@ -98,6 +103,10 @@ $(document).ready(function() {
 		});
 	}
 	
+	var img_url;
+	var mood;
+	
+	
 	function sendRateToServer(imgData) {
 		var data = $('#send-image').serialize();
 		console.log('Sending to the server ' + data);
@@ -108,7 +117,8 @@ $(document).ready(function() {
 			type: "POST",
 			crossDomain: true,
 			success: function(response) {
-				//do something
+				img_url = response.imageUrl;
+				mood = response.mood;
 			}
 		});
 	}
@@ -135,16 +145,23 @@ $(document).ready(function() {
 	 $('#share-via-facebook').click(function () {
       	var fblink = "http://www.facebook.com/dialog/feed?app_id=";
 		var app_id ="257826280912359";
-		var link ="";
-		var picture ="";
-		var message ="I feel neutral";
-		var redirect_uri= "http://google.com"
+		
+		var picture =img_url;
+		var message ="I feel "+mood;
+		if(getUrlContent($('#url-to-view').attr('value')) !=null){
+			var redirect_uri= "${request.getBase()}"+"?url="+getUrlContent($('#url-to-view').attr('value'));
+			var link ="${request.getBase()}"+"?url="+getUrlContent($('#url-to-view').attr('value'));
+		}else{
+			var link ="${request.getBase()}";
+			var redirect_uri= "${request.getBase()}";
+		}
+		
 		fblink += app_id;
 		fblink += "&link="+link;
 		fblink += "&picture="+picture;
 		fblink += "&message="+message;
 		fblink += "&redirect_uri="+redirect_uri;
-	  	window.open(fblink,'mywindow','width=400,height=400');
+	  	window.open(fblink,'mywindow','width=800,height=400');
      })
 	
 	
