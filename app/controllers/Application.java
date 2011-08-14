@@ -33,7 +33,6 @@ public class Application extends Controller {
     	if (sharedUrl == null) {
     		html = EmbedlyRequester.getLinkHtml(getUrl);
     	} else {
-    		System.out.println(JavaExtensions.urlEncode("http://www.youtube.com/watch?v=XxYhuf09oEE&feature=feedrec_grec_index"));
     		html = sharedUrl.html;
     	}
     	renderArgs.put("getUrl_html", html);
