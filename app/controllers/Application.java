@@ -27,24 +27,7 @@ public class Application extends Controller {
     
     public static void getLinkHTML(String url) throws IOException {
     	Logger.info("Trying to get the content for " + url);
-<<<<<<< HEAD
-    	
 		renderJSON(EmbedlyRequester.getLinkHtml(url));
-=======
-
-    	String apiKey = Play.configuration.getProperty("embedly.apikey");
-    	String max_width = Play.configuration.getProperty("max_width");
-    	String baseUrl = "http://api.embed.ly/1/oembed?key="+apiKey +"&url="+url+"&maxwidth"+max_width;//api.embed.ly/1/oembed?key=:key&url=:url&maxwidth=:maxwidth&maxheight=:maxheight&format=:format&callback=:callback
-    	Logger.info("Requesting for " + baseUrl);
-    	URL u = new URL(baseUrl);
-		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-    	InputStream in = conn.getInputStream();
-		byte[] bytes = IOUtils.toByteArray(in);
-		String stringResponse = new String(bytes);
-		Logger.info("Response " + stringResponse);
-		Json json =  Json.loads(stringResponse);
-		renderJSON(json.get("html").toString());
->>>>>>> 9cd3b92e8766f3aa689384c0537394922a17301a
     }
     
     public static void uploadRating(String img) throws IOException {
