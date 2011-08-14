@@ -4,6 +4,7 @@ import java.util.Date;
 
 import siena.Column;
 import siena.DateTime;
+import siena.Generator;
 import siena.Id;
 import siena.Max;
 import siena.Model;
@@ -12,7 +13,10 @@ import siena.Table;
 @Table("images")
 public class Image extends Model {
 	
-	@Id @Max(300) @Column("image_url")
+	@Id(Generator.AUTO_INCREMENT)
+	public Long id;
+	
+	@Column("image_url") @Max(300)
 	public String imageUrl;
 	
 	@Column("is_a_face")

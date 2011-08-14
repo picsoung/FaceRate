@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import siena.DateTime;
+import siena.Generator;
 import siena.Id;
 import siena.Max;
 import siena.Model;
@@ -13,7 +14,11 @@ import siena.embed.Embedded;
 
 @Table("shared_urls")
 public class SharedUrl extends Model {
-	@Id @Max(300)
+	
+	@Id(Generator.AUTO_INCREMENT)
+	public Long id;
+	
+	@Max(300)
 	public String url;
 	
 	@Text
