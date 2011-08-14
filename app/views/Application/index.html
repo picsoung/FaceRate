@@ -1,4 +1,35 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
+#{set title:'FaceRating' /}
+<h1>Face Rating System</h1>
+<form id="url-form" method="post" action="">
+	<label>Url<label>
+	<input type="text" name="url" id="url-to-view"/>
+</form>
+<div id="url-content">
+</div>
+<script type="text/javascript">
 
-#{welcome /}
+function getUrlContent(url) {
+	var data = "url="+url;
+	console.log(data);
+	$.ajax({
+		url: '@@{Application.getLinkHTML}',
+		data: data,
+		type: "POST",
+		crossDomain: true,
+		success: function(response) {
+			drawUrlContent(response);
+		}
+	});
+}
+
+function drawUrlContent(content) {
+	$('#url-content').html(content);
+}
+
+$('#url-form').submit(function(e){
+	console.log('submiting form');
+	e.preventDefault();
+	getUrlContent($('#url-to-view').attr('value'));
+});
+</script>
