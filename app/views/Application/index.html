@@ -20,7 +20,7 @@
 		</div>
 	
 	</div>
-<div class="col col_6" id="right_container">
+	<div class="col col_6" id="right_container">
 		<h1>What did you think ?</h1>
 		<div id="stream-container" class="container">
 			<div id="publisher-container">
@@ -36,20 +36,27 @@
 		<input type="hidden" name="url" id="url-data"/>
 	</form>
 	
-</div>
-<div class="row" id="rate-container">
-	<h3>What others thought :</h3>
-	<img src="./public/images/face.png" />
-</div>
-<div class="row">
-	<div class="col col_16" id="footer">
-		<h3>Powered by</h3>
-		<img src="http://developers.face.com/wordpress/wp-content/uploads/2010/04/logo_500_138-300x82.png" class="logo"/>&nbsp;
-		<img src="http://embed.ly/static/images/logos/embedly-powered-large-light.png" class="logo"/>&nbsp;
-		<img src="http://static.opentok.com/opentok/assets/img/shared/logos/opentok-logo.png" class="logo"/>
 	</div>
-	<a id="share-via-facebook">Texte1</a>
-</div>
+	<div class="row" id="rate-container">
+		<h3>What others thought :</h3>
+		#{if sharedUrl && sharedUrl.images}
+			#{list items:sharedUrl.images.values(), as:'image'}
+				<img src="${image.imageUrl}"/>
+			#{/list}
+		#{/if}
+		#{else}
+			Be the first saying something!
+		#{/else}
+	</div>
+	<div class="row">
+		<div class="col col_16" id="footer">
+			<h3>Powered by</h3>
+			<img src="http://developers.face.com/wordpress/wp-content/uploads/2010/04/logo_500_138-300x82.png" class="logo"/>&nbsp;
+			<img src="http://embed.ly/static/images/logos/embedly-powered-large-light.png" class="logo"/>&nbsp;
+			<img src="http://static.opentok.com/opentok/assets/img/shared/logos/opentok-logo.png" class="logo"/>
+		</div>
+		<a id="share-via-facebook">Texte1</a>
+	</div>
 
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
 <script type="text/javascript">

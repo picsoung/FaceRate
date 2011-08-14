@@ -19,6 +19,7 @@ import apis.FaceComUtils;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
+import play.templates.JavaExtensions;
 import siena.Json;
 import utils.UrlFetcher;
 import utils.Utils;
@@ -27,8 +28,16 @@ public class Application extends Controller {
 
     public static void index() {
     	String getUrl = params.get("url");
-    	renderArgs.put("getUrl_html",EmbedlyRequester.getLinkHtml(getUrl));
-        render();
+    	SharedUrl sharedUrl = SharedUrl.getByUrl(getUrl);
+    	String html = "";
+    	if (sharedUrl == null) {
+    		html = EmbedlyRequester.getLinkHtml(getUrl);
+    	} else {
+    		System.out.println(JavaExtensions.urlEncode("http://www.youtube.com/watch?v=XxYhuf09oEE&feature=feedrec_grec_index"));
+    		html = sharedUrl.html;
+    	}
+    	renderArgs.put("getUrl_html", html);
+        render(sharedUrl);
     }
     
     public static void getLinkHTML(String url) throws IOException {
