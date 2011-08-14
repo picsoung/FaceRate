@@ -31,8 +31,9 @@
 			</div>
 		</div>
 	</div>
-	<form id="send-image" mthod="POST">
+	<form id="send-image" method="POST">
 		<input type="hidden" name="img" id="img-data"/>
+		<input type="hidden" name="url" id="url-data"/>
 	</form>
 	
 </div>
@@ -85,7 +86,7 @@ $(document).ready(function() {
 	}
 	
 	function getUrlContent(url) {
-		var data = "url="+url;
+		var data = $('#url-form').serialize();
 		console.log(data);
 		$.ajax({
 			url: '@@{Application.getLinkHTML}',
@@ -119,10 +120,12 @@ $(document).ready(function() {
 	$('#url-form').submit(function(e){
 		console.log('submiting form');
 		e.preventDefault();
-		getUrlContent($('#url-to-view').attr('value'));
+		var url = $('#url-to-view').attr('value');
+		$('#url-data').attr('value', url);
+		getUrlContent(url);
 	});
 	
-		$("#ratingButton").click(function(e) {
+	$("#ratingButton").click(function(e) {
 		e.preventDefault();
 		var imgData = publisher.getImgData();
 		var img = $('<img>');

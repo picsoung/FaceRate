@@ -49,6 +49,7 @@ public class Application extends Controller {
     }
     
     public static void uploadRating(String url, String img) throws IOException {
+    	Logger.info("Url " + url);
     	byte[] imageBytes = Base64.decodeBase64(img);
     	String imageName = ""+ System.currentTimeMillis();
 		String imagePath = Utils.uploadImage(imageName, imageBytes);
@@ -66,7 +67,11 @@ public class Application extends Controller {
 		Logger.info("Is a face");
 		
 		SharedUrl sharedUrl = SharedUrl.getByUrl(url);
-		
+		if(sharedUrl != null) {
+			Logger.info("Is not null");
+		} else {
+			Logger.info("Is null");
+		}
 		Image image = new Image();
 		
 		image.isSmiling = FaceComUtils.isSmiling(faceInformation);
