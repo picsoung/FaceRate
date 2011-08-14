@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import models.Image;
+import models.ImageInfo;
+import models.SharedUrl;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -26,30 +28,44 @@ public class Application extends Controller {
     public static void index() {
     	String getUrl = params.get("url");
     	renderArgs.put("getUrl_html",EmbedlyRequester.getLinkHtml(getUrl));
-		
         render();
     }
     
     public static void getLinkHTML(String url) throws IOException {
     	Logger.info("Trying to get the content for " + url);
-
-		renderText(EmbedlyRequester.getLinkHtml(url));
+    	String html = null;
+    	SharedUrl sharedUrl = SharedUrl.getByUrl(url);
+    	if (sharedUrl == null) {
+    		html = EmbedlyRequester.getLinkHtml(url);
+    		sharedUrl =  new SharedUrl();
+    		sharedUrl.url = url;
+        	sharedUrl.html = html;
+        	sharedUrl.insert();
+    	} else {
+    		html = sharedUrl.html;
+    	}
+    	
+		renderText(html);
     }
     
-    public static void uploadRating(String img) throws IOException {
+    public static void uploadRating(String url, String img) throws IOException {
     	byte[] imageBytes = Base64.decodeBase64(img);
     	String imageName = ""+ System.currentTimeMillis();
 		String imagePath = Utils.uploadImage(imageName, imageBytes);
 		if (imagePath == null) {
-			//TODO return error
+			Json data = Json.map().put("status", "error").put("errorMessage", "Image not received");
+			renderJSON(data.toString());
 		}
 		
 		Json faceInformation = FaceComUtils.getFaceInfromation(imagePath);
 		if (!FaceComUtils.isFace(faceInformation)) {
-			//TODO return error, is not a face
+			Json data = Json.map().put("status", "error").put("errorMessage", "It's not a face");
+			renderJSON(data.toString());
 		}
 		
 		Logger.info("Is a face");
+		
+		SharedUrl sharedUrl = SharedUrl.getByUrl(url);
 		
 		Image image = new Image();
 		
@@ -57,15 +73,16 @@ public class Application extends Controller {
 		image.wearingGlasses = FaceComUtils.isWeringGlasses(faceInformation);
 		image.mood = FaceComUtils.getStringAttributeValue(faceInformation, "mood");
 		image.moodConfidence = FaceComUtils.getAttributeConfidence(faceInformation, "mood");
+		image.imageUrl = imagePath;
+		image.sharedUrl = sharedUrl;
+		image.insert();
 		
-		Logger.info(""+image.isSmiling);
-		Logger.info(""+image.wearingGlasses);
-		Logger.info(""+image.mood);
-		Logger.info(""+image.moodConfidence);
-		
-		//image.insert();
+		sharedUrl.images.put(image.id+"", new ImageInfo(image));
+		sharedUrl.update();
 		
 		
+		Json data = Json.map().put("status", "ok").put("imageUrl", image.imageUrl).put("mood", image.mood);
+		renderJSON(data.toString());
     }
 
 }
