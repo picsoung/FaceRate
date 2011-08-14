@@ -20,7 +20,7 @@
 		</div>
 	
 	</div>
-<div class="col col_6" id="right_container">
+	<div class="col col_6" id="right_container">
 		<h1>What did you think ?</h1>
 		<div id="stream-container" class="container">
 			<div id="publisher-container">
@@ -36,24 +36,32 @@
 		  <a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
 		</div>
 	</div>
-	<form id="send-image" mthod="POST">
+	<form id="send-image" method="POST">
 		<input type="hidden" name="img" id="img-data"/>
+		<input type="hidden" name="url" id="url-data"/>
 	</form>
-	
-	
-</div>
-<div class="row" id="rate-container">
-	<h3>What others thought :</h3>
-	<img src="./public/images/face.png" />
-</div>
-<div class="row">
-	<div class="col col_16" id="footer">
-		<h3>Powered by</h3>
-		<img src="./public/images/logo_facedotcom.png" class="logo"/>&nbsp;
+
+	</div>
+	<div class="row" id="rate-container">
+		<h3>What others thought :</h3>
+		#{if sharedUrl && sharedUrl.images}
+			#{list items:sharedUrl.images.values(), as:'image'}
+				<img src="${image.imageUrl}"/>
+			#{/list}
+		#{/if}
+		#{else}
+			Be the first saying something!
+		#{/else}
+	</div>
+	<div class="row">
+		<div class="col col_16" id="footer">
+			<h3>Powered by</h3>
+			<img src="./public/images/logo_facedotcom.png" class="logo"/>&nbsp;
 		<img src="./public/images/logo_embedly.png" class="logo"/>&nbsp;
 		<img src="./public/images/opentok-logo.png" class="logo"/>
+		</div>
+		<a id="share-via-facebook">Texte1</a>
 	</div>
-</div>
 
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
 <script type="text/javascript">
@@ -90,7 +98,7 @@ $(document).ready(function() {
 	}
 	
 	function getUrlContent(url) {
-		var data = "url="+url;
+		var data = $('#url-form').serialize();
 		console.log(data);
 		$.ajax({
 			url: '@@{Application.getLinkHTML}',
@@ -129,10 +137,12 @@ $(document).ready(function() {
 	$('#url-form').submit(function(e){
 		console.log('submiting form');
 		e.preventDefault();
-		getUrlContent($('#url-to-view').attr('value'));
+		var url = $('#url-to-view').attr('value');
+		$('#url-data').attr('value', url);
+		getUrlContent(url);
 	});
 	
-		$("#ratingButton").click(function(e) {
+	$("#ratingButton").click(function(e) {
 		e.preventDefault();
 		var imgData = publisher.getImgData();
 		var img = $('<img>');

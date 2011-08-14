@@ -27,6 +27,7 @@ public class ImageInfo {
 		isAFace = image.isAFace;
 		wearingGlasses = image.wearingGlasses;
 		mood = image.mood;
+		moodConfidence = image.moodConfidence;
 		creationDate = image.creationDate.getTime();
 	}
 }
