@@ -1,0 +1,31 @@
+
+
+#url-to-view {
+	width: 400px;	
+
+}
+
+#left_container {
+	padding-top: 2em;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+}
+
+#left_container h1{
+}
+
+#left_container form label {
+	font-size:1.452em;
+}
+
+#right_container {
+	padding-top: 100px;
+
+}
+
+#footer{
+	height: 200px;
+	margin-top: 10px;
+}
+
