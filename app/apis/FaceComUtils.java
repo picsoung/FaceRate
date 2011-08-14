@@ -50,7 +50,6 @@ public class FaceComUtils {
 	}
 
 	public static boolean getBooleanAtributeValue(Json data, String attributeName) {
-		Logger.info("Trying to get " + attributeName + " attribute " + data.get("photos").at(0).get("tags").at(0).get("attributes").toString());
 		return "true".equals(data.get("photos").at(0).get("tags").at(0).get("attributes").get(attributeName).get("value").str()) ? true : false ;
 	}
 
