@@ -25,9 +25,11 @@ public class Application extends Controller {
     	Logger.info("Trying to get the content for " + url);
 
     	String apiKey = Play.configuration.getProperty("embedly.apikey");
-    	String max_width = Play.configuration.getProperty("max_width");
-    	String baseUrl = "http://api.embed.ly/1/oembed?key="+apiKey +"&url="+url+"&maxwidth"+max_width;//api.embed.ly/1/oembed?key=:key&url=:url&maxwidth=:maxwidth&maxheight=:maxheight&format=:format&callback=:callback
+    	String max_width = Play.configuration.getProperty("content_maxwidth");
+    	String baseUrl = "http://api.embed.ly/1/oembed?key="+apiKey +"&url="+url+"&maxwidth="+max_width;//api.embed.ly/1/oembed?key=:key&url=:url&maxwidth=:maxwidth&maxheight=:maxheight&format=:format&callback=:callback
     	Logger.info("Requesting for " + baseUrl);
+    	
+    
     	URL u = new URL(baseUrl);
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
     	InputStream in = conn.getInputStream();
