@@ -1,5 +1,7 @@
 #{extends 'main.html' /}
 #{set title:'FaceRating' /}
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
 <div class="row" id="container" >
 	<div class="col col_10" id="left_container">
 		<h1>Face Rating System</h1>
@@ -32,6 +34,7 @@
 	<form id="send-image" mthod="POST">
 		<input type="hidden" name="img" id="img-data"/>
 	</form>
+	
 </div>
 <div class="row" id="rate-container">
 	<h3>What others thought :</h3>
@@ -44,7 +47,7 @@
 		<img src="http://embed.ly/static/images/logos/embedly-powered-large-light.png" class="logo"/>&nbsp;
 		<img src="http://static.opentok.com/opentok/assets/img/shared/logos/opentok-logo.png" class="logo"/>
 	</div>
-
+	<a id="share-via-facebook">Texte1</a>
 </div>
 
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
@@ -128,6 +131,23 @@ $(document).ready(function() {
 		$('#img-data').attr('value', imgData);
 		sendRateToServer();
 	});
+	
+	 $('#share-via-facebook').click(function () {
+      	var fblink = "http://www.facebook.com/dialog/feed?app_id=";
+		var app_id ="257826280912359";
+		var link ="";
+		var picture ="";
+		var message ="I feel neutral";
+		var redirect_uri= "http://google.com"
+		fblink += app_id;
+		fblink += "&link="+link;
+		fblink += "&picture="+picture;
+		fblink += "&message="+message;
+		fblink += "&redirect_uri="+redirect_uri;
+	  	window.open(fblink,'mywindow','width=400,height=400');
+     })
+	
+	
 	console.log('Finished');
 });
 </script>
