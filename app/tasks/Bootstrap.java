@@ -69,37 +69,11 @@ public class Bootstrap extends Job {
 	public void createDatabasePool(Properties p) {
 		C3poConnectionManager cm = new C3poConnectionManager();
 		cm.init(p);
-		createTables(cm.getConnection());
 		
 		JdbcPersistenceManager pm = new JdbcPersistenceManager(cm, null);
 		PersistenceManagerFactory.install(pm, SharedUrl.class);
 	}
 	
-	private void createTables(Connection connection) {
-		logger.info("Creating tables");
-		Statement statement = null;
-		try {
-			statement = connection.createStatement();
-
-			statement.executeUpdate("CREATE TABLE images(id BIGINT NOT NULL AUTO_INCREMENT," +
-					"image_url VARCHAR(300) NULL,is_a_face TINYINT(1) DEFAULT false NOT NULL," +
-					"wearing_glasses TINYINT(1) DEFAULT false NOT NULL,is_smiling TINYINT(1) " +
-					"DEFAULT false NOT NULL,mood VARCHAR(50) NULL,mood_confidence INTEGER DEFAULT" +
-					" 0 NOT NULL,creationDate DATETIME,shared_url BIGINT,PRIMARY KEY (id));");
-
-			statement.executeUpdate("CREATE TABLE shared_urls(id BIGINT NOT NULL AUTO_INCREMENT," +
-					"url VARCHAR(300) NULL,html MEDIUMTEXT NULL,images MEDIUMTEXT NULL,creationDate" +
-					" DATETIME,lastUpdate DATETIME,PRIMARY KEY (id));");
-
-			statement.executeUpdate("CREATE INDEX url ON shared_urls (url);");
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (statement != null) {try {statement.close();} catch (SQLException e) {}}
-			if (connection != null) {try {connection.close();} catch (SQLException e) {}}
-		}
-	}
 
 
 }
