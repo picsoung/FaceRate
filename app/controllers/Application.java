@@ -19,15 +19,18 @@ public class Application extends Controller {
 
     public static void index() {
     	String getUrl = params.get("url");
-    	SharedUrl sharedUrl = SharedUrl.getByUrl(getUrl);
-    	String html = "";
-    	if (sharedUrl == null) {
-    		html = EmbedlyRequester.getLinkHtml(getUrl);
-    	} else {
-    		html = sharedUrl.html;
+    	if (getUrl != null) {
+	    	SharedUrl sharedUrl = SharedUrl.getByUrl(getUrl);
+	    	String html = "";
+	    	if (sharedUrl == null) {
+	    		html = EmbedlyRequester.getLinkHtml(getUrl);
+	    	} else {
+	    		html = sharedUrl.html;
+	    	}
+	    	renderArgs.put("getUrl_html", html);
+	    	renderArgs.put("sharedUrl", sharedUrl);
     	}
-    	renderArgs.put("getUrl_html", html);
-        render(sharedUrl);
+        render();
     }
     
     public static void getLinkHTML(String url) throws IOException {
