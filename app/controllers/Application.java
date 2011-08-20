@@ -1,28 +1,19 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import models.Image;
 import models.ImageInfo;
 import models.SharedUrl;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-
-import apis.EmbedlyRequester;
-import apis.FaceComUtils;
 
 import play.Logger;
-import play.Play;
 import play.mvc.Controller;
-import play.templates.JavaExtensions;
 import siena.Json;
-import utils.UrlFetcher;
 import utils.Utils;
+import apis.EmbedlyRequester;
+import apis.FaceComUtils;
 
 public class Application extends Controller {
 

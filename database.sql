@@ -1,0 +1,26 @@
+CREATE TABLE images
+(
+id BIGINT NOT NULL AUTO_INCREMENT,
+image_url VARCHAR(300) NULL,
+is_a_face TINYINT(1) DEFAULT false NOT NULL,
+wearing_glasses TINYINT(1) DEFAULT false NOT NULL,
+is_smiling TINYINT(1) DEFAULT false NOT NULL,
+mood VARCHAR(50) NULL,
+mood_confidence INTEGER DEFAULT 0 NOT NULL,
+creationDate DATETIME,
+shared_url BIGINT,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE shared_urls
+(
+id BIGINT NOT NULL AUTO_INCREMENT,
+url VARCHAR(300) NULL,
+html MEDIUMTEXT NULL,
+images MEDIUMTEXT NULL,
+creationDate DATETIME,
+lastUpdate DATETIME,
+PRIMARY KEY (id)
+);
+
+CREATE INDEX url ON shared_urls (url);

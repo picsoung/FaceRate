@@ -106,7 +106,6 @@ $(document).ready(function() {
 	
 	function getUrlContent(url) {
 		var data = $('#url-form').serialize();
-		console.log(data);
 		$.ajax({
 			url: '@@{Application.getLinkHTML}',
 			data: data,
@@ -124,8 +123,6 @@ $(document).ready(function() {
 	
 	function sendRateToServer(imgData) {
 		var data = $('#send-image').serialize();
-		console.log('Sending to the server ' + data);
-		console.log(data);
 		$.ajax({
 			url: '@@{Application.uploadRating}',
 			data: data,
@@ -149,7 +146,6 @@ $(document).ready(function() {
 		$('#url-content').html(content);
 	}
 	$('#url-form').submit(function(e){
-		console.log('submiting form');
 		e.preventDefault();
 		var url = $('#url-to-view').attr('value');
 		$('#url-data').attr('value', url);
@@ -185,10 +181,7 @@ $(document).ready(function() {
 		fblink += "&message="+message;
 		fblink += "&redirect_uri="+redirect_uri;
 	  	window.open(fblink,'mywindow','width=800,height=400');
-     })
-	
-	
-	console.log('Finished');
+     });
 });
 </script>
 <script src="@{'/public/javascripts/face-rating.js'}" type="text/javascript" charset="utf-8"></script>

@@ -1,10 +1,5 @@
 package models;
 
-import java.util.Date;
-
-import siena.Column;
-import siena.DateTime;
-import siena.Max;
 import siena.embed.EmbeddedMap;
 
 @EmbeddedMap
