@@ -1,2 +1,18 @@
-Our first file in the project
+###### ABOUT ############
+FaceRate is using Face.com API to let you rate any web content based on your facial expression.
 
+We developed it during the HapiHack #2 organized by OpenTok.
+
+FaceRate won two prizes from Face.com and Embed.ly
+
+FaceRate uses APIs from : Face.com, OpenTok and Embed.ly.
+
+Live demo : http://facerate.cloudfoundry.com/
+
+Developers : Ignacio Andreu and Nicolas Grenié
+
+Aug. 2011
+##################
+
+###### TODO ##########
+*Social sharing feature
