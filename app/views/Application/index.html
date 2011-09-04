@@ -30,9 +30,10 @@
 				<button id="ratingButton" style="display: none">FaceRate it</button>
 			</div>
 		</div>
-		<img src="./public/images/share_btn.jpg" id="share-via-facebook" width="100px"/>
+		<div id="social-share" style="display: none">
+		<img src="./public/images/share_btn.jpg" id="share-via-facebook" width="100px" />
 		<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
-		<div>
+		
 		  <a href="http://twitter.com/share" class="twitter-share-button" id="tweet-share">Tweet</a>
 		</div>
 	</div>
@@ -63,7 +64,7 @@
 		<div class="col col_16" id="footer">
 			<h3>Created by</h3>
 			<div style="margin-bottom:20px; font-size:18px">
-				<a href="http://twitter.com/#!/picsoung">Nicolas Grenier</a>
+				<a href="http://twitter.com/#!/picsoung">Nicolas Grenié</a>
 				and <a href="http://twitter.com/#!/plunchete">Ignacio Andreu</a>
 			</div>
 			<h3>Powered by</h3>
@@ -134,8 +135,8 @@ $(document).ready(function() {
 			crossDomain: true,
 			success: function(response) {
 		
-				var img_url = response.imageUrl;
-				var mood = response.mood;
+				img_url = response.imageUrl;
+				mood = response.mood;
 				var container = $('<div>').css('float', 'left').append($('<div>').append($('<img>').attr('src',img_url)).append($('<div>').css('font-size','18').css('text-align', 'center').text(mood)));
 				$("#rate-container").prepend(container);
 				
@@ -163,6 +164,7 @@ $(document).ready(function() {
 		//img.attr('src', "data:image/gif;base64," + imgData);
 		$('#img-data').attr('value', imgData);
 		sendRateToServer();
+		$("#social-share").toggle();
 	});
 	
 	 $('#share-via-facebook').click(function () {
